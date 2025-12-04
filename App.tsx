@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
 import StartScreen from './components/StartScreen';
 import QuizCard from './components/QuizCard';
 import Results from './components/Results';
 import { QUESTION_DATABASE } from './constants';
-import { QuizState, Question } from './types';
+import { CUSTOM_QUESTIONS } from './customQuestions';
+import { QuizState, Question, QuizMode } from './types';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<QuizState>({
@@ -15,11 +17,27 @@ const App: React.FC = () => {
 
   const [questions, setQuestions] = useState<Question[]>([]);
 
-  // Shuffle questions when starting
-  const startQuiz = () => {
-    const shuffled = [...QUESTION_DATABASE]
+  // Shuffle questions when starting based on selected mode
+  const startQuiz = (mode: QuizMode) => {
+    let sourceData: Question[] = [];
+    
+    if (mode === 'eipass') {
+      sourceData = QUESTION_DATABASE;
+    } else {
+      sourceData = CUSTOM_QUESTIONS;
+    }
+
+    if (sourceData.length === 0) {
+      alert("La banca dati selezionata è vuota!");
+      return;
+    }
+
+    // Take random 30 questions or less if the database is smaller
+    const questionCount = Math.min(30, sourceData.length);
+
+    const shuffled = [...sourceData]
       .sort(() => Math.random() - 0.5)
-      .slice(0, 30); // Take random 30 questions for a session
+      .slice(0, questionCount);
 
     setQuestions(shuffled);
     setGameState({
@@ -53,6 +71,16 @@ const App: React.FC = () => {
     }
   };
 
+  const restartQuiz = () => {
+    setGameState({
+      ...gameState,
+      status: 'start',
+      score: 0,
+      answers: [],
+      currentQuestionIndex: 0
+    });
+  };
+
   return (
     <div className="min-h-screen bg-slate-100 py-8 px-4 font-sans text-slate-800">
       
@@ -70,17 +98,18 @@ const App: React.FC = () => {
 
       <div className="relative z-10 container mx-auto flex flex-col items-center justify-center min-h-[90vh]">
         
-        {/* App Logo/Header (Small, visible on all screens except start if needed, but let's keep it clean) */}
+        {/* App Logo/Header */}
         {gameState.status !== 'start' && (
            <div className="mb-8 text-center">
-             <h1 className="text-xl font-bold text-indigo-900 opacity-50">EIPASS 7 Moduli</h1>
+             <h1 className="text-xl font-bold text-indigo-900 opacity-50">EIPASS Quiz Simulator</h1>
            </div>
         )}
 
         {gameState.status === 'start' && (
           <StartScreen 
             onStart={startQuiz} 
-            totalQuestions={30} // We select 30 random ones
+            totalQuestions={QUESTION_DATABASE.length} 
+            customQuestionsCount={CUSTOM_QUESTIONS.length}
           />
         )}
 
@@ -97,7 +126,7 @@ const App: React.FC = () => {
           <Results
             score={gameState.score}
             totalQuestions={questions.length}
-            onRestart={startQuiz}
+            onRestart={restartQuiz}
           />
         )}
 

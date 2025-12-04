@@ -1,4 +1,3 @@
-
 export interface Question {
   id: number;
   question: string;
@@ -14,6 +13,8 @@ export interface QuizState {
   score: number;
   answers: boolean[]; // true if correct, false if wrong
 }
+
+export type QuizMode = 'eipass' | 'custom';
 
 export interface QuestionCardProps {
   question: Question;

@@ -1,62 +1,71 @@
+
 import React from 'react';
-import { Play, BookOpen, Award } from 'lucide-react';
+import { Play, BookOpen, Award, FileEdit } from 'lucide-react';
+import { QuizMode } from '../types';
 
 interface StartScreenProps {
-  onStart: () => void;
+  onStart: (mode: QuizMode) => void;
   totalQuestions: number;
+  customQuestionsCount: number;
 }
 
-const StartScreen: React.FC<StartScreenProps> = ({ onStart, totalQuestions }) => {
+const StartScreen: React.FC<StartScreenProps> = ({ onStart, totalQuestions, customQuestionsCount }) => {
   return (
     <div className="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden p-8 md:p-12 text-center animate-fade-in">
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center mb-6">
         <div className="bg-indigo-100 p-4 rounded-full">
           <BookOpen className="w-16 h-16 text-indigo-600" />
         </div>
       </div>
       
-      <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-        EIPASS 7 Moduli
+      <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2">
+        Quiz Simulator
       </h1>
-      <h2 className="text-xl text-indigo-600 font-medium mb-6">
-        Simulatore d'Esame User 6.0
+      <h2 className="text-xl text-indigo-600 font-medium mb-8">
+        Scegli la modalità di esame
       </h2>
-      
-      <p className="text-slate-600 mb-8 leading-relaxed max-w-md mx-auto">
-        Mettiti alla prova con una sessione di {totalQuestions} domande estratte casualmente da un database di 500 quesiti ufficiali (2023/2024).
-      </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10 text-left">
-        <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-          <div className="flex items-center gap-2 mb-2">
-            <Award className="w-5 h-5 text-yellow-500" />
-            <span className="font-bold text-slate-800">Windows 11</span>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        {/* EIPASS Card */}
+        <button 
+          onClick={() => onStart('eipass')}
+          className="group relative bg-slate-50 hover:bg-indigo-50 border-2 border-slate-200 hover:border-indigo-500 rounded-2xl p-6 transition-all duration-300 text-left flex flex-col h-full shadow-sm hover:shadow-md"
+        >
+          <div className="mb-4 bg-white w-12 h-12 rounded-lg flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+            <Award className="w-6 h-6 text-indigo-600" />
           </div>
-          <p className="text-xs text-slate-500">Domande aggiornate al nuovo sistema operativo</p>
-        </div>
-         <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-          <div className="flex items-center gap-2 mb-2">
-            <Award className="w-5 h-5 text-blue-500" />
-            <span className="font-bold text-slate-800">Office 2023</span>
+          <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-indigo-700">EIPASS 7 Moduli</h3>
+          <p className="text-sm text-slate-500 mb-4">Banca dati ufficiale aggiornata (2023/2024).</p>
+          <div className="mt-auto flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+            <span>{totalQuestions} Domande</span>
           </div>
-          <p className="text-xs text-slate-500">Word, Excel, PowerPoint e Access</p>
-        </div>
-         <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-          <div className="flex items-center gap-2 mb-2">
-            <Award className="w-5 h-5 text-green-500" />
-            <span className="font-bold text-slate-800">Sicurezza</span>
+          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Play className="w-5 h-5 text-indigo-500" />
           </div>
-          <p className="text-xs text-slate-500">Reti, Malware, GDPR e Privacy</p>
-        </div>
+        </button>
+
+        {/* Custom Card */}
+        <button 
+          onClick={() => onStart('custom')}
+          className="group relative bg-slate-50 hover:bg-emerald-50 border-2 border-slate-200 hover:border-emerald-500 rounded-2xl p-6 transition-all duration-300 text-left flex flex-col h-full shadow-sm hover:shadow-md"
+        >
+          <div className="mb-4 bg-white w-12 h-12 rounded-lg flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+            <FileEdit className="w-6 h-6 text-emerald-600" />
+          </div>
+          <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-emerald-700">Banca Dati Personale</h3>
+          <p className="text-sm text-slate-500 mb-4">Le tue domande personalizzate (da compilare).</p>
+          <div className="mt-auto flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+            <span>{customQuestionsCount} Domande</span>
+          </div>
+          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Play className="w-5 h-5 text-emerald-500" />
+          </div>
+        </button>
       </div>
 
-      <button
-        onClick={onStart}
-        className="w-full md:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-full transition-all transform hover:scale-105 shadow-lg hover:shadow-indigo-500/30 flex items-center justify-center gap-3 mx-auto"
-      >
-        <Play className="w-5 h-5 fill-current" />
-        Inizia il Quiz
-      </button>
+      <p className="text-xs text-slate-400 leading-relaxed max-w-md mx-auto">
+        Seleziona "Banca Dati Personale" per utilizzare le domande inserite nel file <code>customQuestions.ts</code>.
+      </p>
     </div>
   );
 };
