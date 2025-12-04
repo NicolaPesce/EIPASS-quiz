@@ -35,7 +35,7 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, totalQuestions, cust
             <Award className="w-6 h-6 text-indigo-600" />
           </div>
           <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-indigo-700">EIPASS 7 Moduli</h3>
-          <p className="text-sm text-slate-500 mb-4">Banca dati ufficiale aggiornata (2023/2024).</p>
+          <p className="text-sm text-slate-500 mb-4">Banca dati ufficiale.</p>
           <div className="mt-auto flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
             <span>{totalQuestions} Domande</span>
           </div>
@@ -52,8 +52,8 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, totalQuestions, cust
           <div className="mb-4 bg-white w-12 h-12 rounded-lg flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
             <FileEdit className="w-6 h-6 text-emerald-600" />
           </div>
-          <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-emerald-700">Banca Dati Personale</h3>
-          <p className="text-sm text-slate-500 mb-4">Le tue domande personalizzate (da compilare).</p>
+          <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-emerald-700">Banca Dati Test Interno</h3>
+          <p className="text-sm text-slate-500 mb-4">Le domande del test interno.</p>
           <div className="mt-auto flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
             <span>{customQuestionsCount} Domande</span>
           </div>
@@ -63,9 +63,6 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, totalQuestions, cust
         </button>
       </div>
 
-      <p className="text-xs text-slate-400 leading-relaxed max-w-md mx-auto">
-        Seleziona "Banca Dati Personale" per utilizzare le domande inserite nel file <code>customQuestions.ts</code>.
-      </p>
     </div>
   );
 };
