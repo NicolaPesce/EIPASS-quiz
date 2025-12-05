@@ -107,12 +107,7 @@ const Results: React.FC<ResultsProps> = ({ score, totalQuestions, onRestart }) =
           <RotateCcw className="w-5 h-5" />
           Riprova
         </button>
-        <button
-          className="px-8 py-3 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 font-bold rounded-full transition-colors flex items-center justify-center gap-2"
-        >
-          <Share2 className="w-5 h-5" />
-          Condividi Risultato
-        </button>
+        
       </div>
     </div>
   );
